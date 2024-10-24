@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anh Yêu Em</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
+        }
+        .message {
+            position: absolute;
+            font-size: 4em;
+            color: #991515;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+            z-index: 10;
+        }
+        .heart {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: #ff69b4;
+            transform: rotate(-45deg);
+            top: 50%;
+            left: 50%;
+            margin-left: -100px;
+            margin-top: -100px;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+            cursor: pointer;
+        }
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: #ff69b4;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -100px;
+            left: 0;
+        }
+        .heart::after {
+            top: 0;
+            left: -100px;
+        }
+        
+        .small-heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff69b4;
+            transform: rotate(-45deg);
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+            border-radius: 50%;
+        }
+        .small-heart::before, .small-heart::after {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff69b4;
+            border-radius: 50%;
+        }
+        .small-heart::before {
+            top: -25px;
+            left: 0;
+        }
+        .small-heart::after {
+            top: 0;
+            left: -25px;
+        }
+
+        .falling-heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #fc08d3;
+            transform: rotate(-45deg);
+            animation: fall 6s linear infinite;
+            box-shadow: 0 0 15px #fc08d3;
+            border-radius: 50%;
+        }
+        .falling-heart::before, .falling-heart::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #fc08d3;
+            border-radius: 50%;
+        }
+        .falling-heart::before {
+            top: -15px;
+            left: 0;
+        }
+        .falling-heart::after {
+            top: 0;
+            left: -15px;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1) rotate(-45deg);
+            }
+            50% {
+                transform: scale(1.1) rotate(-45deg);
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes burst {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 1;
+            }
+            100% {
+                top: 110%;
+                opacity: 0;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heart = document.querySelector('.heart');
+            const message = document.querySelector('.message');
+
+            // Add multiple small hearts around the main message
+            for (let i = 0; i < 30; i++) {
+                const smallHeart = document.createElement('div');
+                smallHeart.classList.add('small-heart');
+                smallHeart.style.top = `${Math.random() * 100 + 20}%`;
+                smallHeart.style.left = `${Math.random() * 100}%`;
+                document.body.appendChild(smallHeart);
+            }
+
+            heart.addEventListener('click', () => {
+                message.innerHTML = 'Anh yêu Linh lắm í❤️';
+                heart.style.animation = 'none';
+                setTimeout(() => {
+                    heart.style.animation = 'pulse 1.5s infinite';
+                }, 10);
+
+                // Create burst effect with hearts
+                for (let i = 0; i < 50; i++) {
+                    const burstHeart = document.createElement('div');
+                    burstHeart.classList.add('small-heart');
+                    burstHeart.style.top = `${heart.offsetTop + 100 + (Math.random() * 200 - 100)}px`;
+                    burstHeart.style.left = `${heart.offsetLeft + 100 + (Math.random() * 200 - 100)}px`;
+                    burstHeart.style.animation = 'burst 1s ease-out forwards';
+                    document.body.appendChild(burstHeart);
+
+                    // Remove burst heart after animation
+                    burstHeart.addEventListener('animationend', () => {
+                        burstHeart.remove();
+                    });
+                }
+            });
+
+            // Add multiple falling hearts with adjusted distance
+            for (let i = 0; i < 50; i++) {
+                const fallingHeart = document.createElement('div');
+                fallingHeart.classList.add('falling-heart');
+                fallingHeart.style.left = `${Math.random() * 100}%`;
+                fallingHeart.style.animationDuration = `${Math.random() * 4 + 5}s`; // Randomize falling duration between 5s and 9s
+                fallingHeart.style.opacity = Math.random() * 0.7 + 0.3; // Random opacity
+                document.body.appendChild(fallingHeart);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="message">
+        Anh yêu em
+        <div class="heart"></div>
+    </div>
+</body>
+</html>
